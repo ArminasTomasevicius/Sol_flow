@@ -10,26 +10,26 @@ import PostList from '../../components/user-card/post-list'
 import PostItem from '../../components/user-card/post-list/post-item'
 import { Spinner } from '../../components/icons'
 
-const UserDetail = ({ username }) => {
+const UserDetail = ({ publicKey }) => {
   const [posts, setPosts] = useState(null)
   const [postType, setPostType] = useState('Questions')
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const { data } = await publicFetch.get(`/question/user/${username}`)
+      const { data } = await publicFetch.get(`/question/user/${publicKey}`)
       setPosts(data)
     }
     fetchQuestions()
-  }, [postType, username])
+  }, [postType, publicKey])
 
   return (
     <Layout extra={false}>
       <Head>
-        <title>Users {username} - Clone of Stackoverflow</title>
+        <title>Users {publicKey} - Clone of Stackoverflow</title>
       </Head>
 
       <UserCard>
-        <AvatarCard username={username} />
+        <AvatarCard publicKey={publicKey} />
         <PostList postType={postType} setPostType={setPostType}>
           {!posts && (
             <div className="loading">
@@ -59,10 +59,10 @@ const UserDetail = ({ username }) => {
 }
 
 export async function getServerSideProps(context) {
-  const username = context.params.username
+  const publicKey = context.params.publicKey
   return {
     props: {
-      username
+		publicKey
     }
   }
 }

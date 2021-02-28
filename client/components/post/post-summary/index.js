@@ -51,11 +51,11 @@ const PostSummary = ({
             ))}
           </div>
           <div className={styles.userDetails}>
-            <Link href="/users/[user]" as={`/users/${author.username}`}>
+            <Link href="/users/[user]" as={`/users/${author.publicKey}`}>
               <a>
                 <img
                   src={`https://secure.gravatar.com/avatar/${author.id}?s=32&d=identicon`}
-                  alt={author.username}
+                  alt={author.publicKey}
                 />
               </a>
             </Link>
@@ -66,8 +66,8 @@ const PostSummary = ({
                   addSuffix: true
                 })}
               </span>
-              <Link href="/users/[user]" as={`/users/${author.username}`}>
-                <a>{author.username}</a>
+              <Link href="/users/[user]" as={`/users/${author.publicKey}`}>
+                <a>{author.publicKey}</a>
               </Link>
             </div>
           </div>

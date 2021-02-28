@@ -4,19 +4,19 @@ import formatDistanceToNowStrict from 'date-fns/formatDistanceToNowStrict'
 
 import styles from './user-item.module.css'
 
-const UserItem = ({ username, profilePhoto, created }) => {
+const UserItem = ({ publicKey, profilePhoto, created }) => {
   return (
     <div className={styles.card}>
       <div className={styles.avatar}>
-        <Link href="/users/[username]" as={`/users/${username}`}>
+        <Link href="/users/[publicKey]" as={`/users/${publicKey}`}>
           <a>
-            <img src={profilePhoto} alt={username} />
+            <img src={profilePhoto} alt={publicKey} />
           </a>
         </Link>
       </div>
       <div className={styles.body}>
-        <Link href="/users/[username]" as={`/users/${username}`}>
-          <a>{username}</a>
+        <Link href="/users/[publicKey]" as={`/users/${publicKey}`}>
+          <a>{publicKey}</a>
         </Link>
         <p>
           created{' '}

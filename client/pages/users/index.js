@@ -63,10 +63,10 @@ function UsersPage() {
       {users && (
         <>
           <UserList>
-            {users?.map(({ username, profilePhoto, created, id }) => (
+            {users?.map(({ publicKey, profilePhoto, created, id }) => (
               <UserItem
                 key={id}
-                username={username}
+                publicKey={publicKey}
                 profilePhoto={profilePhoto}
                 created={created}
               />

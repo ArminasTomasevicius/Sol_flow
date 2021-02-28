@@ -36,7 +36,7 @@ const router = require('express').Router();
 //users
 router.get('/users', listUsers);
 router.get('/users/:search', search);
-router.get('/user/:username', find);
+router.get('/user/:publicKey', find);
 
 //questions
 router.param('question', loadQuestions);
@@ -47,7 +47,7 @@ router.post('/questionPaid', [requireAuth, questionValidate], setQuestionPaid);
 router.get('/question/:question', show);
 router.get('/question', listQuestions);
 router.get('/questions/:tags', listByTags);
-router.get('/question/user/:username', listByUser);
+router.get('/question/user/:publicKey', listByUser);
 router.delete('/question/:question', [requireAuth, questionAuth], removeQuestion);
 
 //tags

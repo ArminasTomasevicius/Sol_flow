@@ -8,17 +8,17 @@ import { Spinner } from '../../icons'
 
 import styles from './avatar-card.module.css'
 
-const UserAvatar = ({ username }) => {
+const UserAvatar = ({ publicKey }) => {
   const [userInfo, setUserInfo] = useState(null)
 
   useEffect(() => {
     const fetchUser = async () => {
-      const { data } = await publicFetch.get(`/user/${username}`)
+      const { data } = await publicFetch.get(`/user/${publicKey}`)
       setUserInfo(data)
     }
 
     fetchUser()
-  }, [username])
+  }, [publicKey])
 
   return (
     <div>
@@ -29,17 +29,17 @@ const UserAvatar = ({ username }) => {
           </div>
         ) : (
           <div className={styles.avatar}>
-            <Link href="/users/[username]" as={`/users/${username}`}>
+            <Link href="/users/[publicKey]" as={`/users/${publicKey}`}>
               <a>
                 <img
                   src={`https://secure.gravatar.com/avatar/${userInfo.id}?s=164&d=identicon`}
-                  alt={username}
+                  alt={publicKey}
                 />
               </a>
             </Link>
           </div>
         )}
-        <h2 className={styles.username}>{username}</h2>
+        <h2 className={styles.publicKey}>{publicKey}</h2>
         {!userInfo ? (
           <div className="loading">
             <Spinner />

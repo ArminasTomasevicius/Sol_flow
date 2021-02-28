@@ -82,8 +82,8 @@ const QuestionDetail = ({ questionId, title }) => {
                     key={id}
                     commentId={id}
                     questionId={questionId}
-                    author={author.username}
-                    isOwner={author.username === question.author.username}
+                    author={author.publicKey}
+                    isOwner={author.publicKey === question.author.publicKey}
                     created={created}
                     setQuestion={setQuestion}
                   >
@@ -128,8 +128,8 @@ const QuestionDetail = ({ questionId, title }) => {
                           commentId={id}
                           questionId={questionId}
                           answerId={answer.id}
-                          author={author.username}
-                          isOwner={author.username === question.author.username}
+                          author={author.publicKey}
+                          isOwner={author.publicKey === question.author.publicKey}
                           created={created}
                           setQuestion={setQuestion}
                         >
