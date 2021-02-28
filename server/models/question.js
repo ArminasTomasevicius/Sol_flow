@@ -15,9 +15,12 @@ const questionSchema = new Schema({
   text: { type: String, required: true },
   tags: [{ type: String, required: true }],
   score: { type: Number, default: 0 },
+  bountyPaid: {type: Boolean, required: true },
   votes: [voteSchema],
   comments: [commentSchema],
   answers: [answerSchema],
+  walletPublic: { type: String, required: true},
+  walletPrivate: { type: String, required: true},
   created: { type: Date, default: Date.now },
   views: { type: Number, default: 0 }
 });

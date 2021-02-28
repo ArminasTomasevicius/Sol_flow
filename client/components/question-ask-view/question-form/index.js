@@ -4,6 +4,8 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { FetchContext } from '../../../store/fetch'
+import { WalletContext } from '../../../store/wallet'
+import { Connection, SystemProgram, clusterApiUrl } from '@solana/web3.js';
 
 import Button from '../../button'
 import Textarea from '../../textarea'
@@ -15,6 +17,7 @@ import styles from './question-form.module.css'
 const QuestionForm = () => {
   const router = useRouter()
   const { authAxios } = useContext(FetchContext)
+  const { walletState, getWallet } = useContext(WalletContext)
 
   const [loading, setLoading] = useState(false)
 
@@ -24,9 +27,27 @@ const QuestionForm = () => {
       onSubmit={async (values, { setStatus, resetForm }) => {
         setLoading(true)
         try {
-          await authAxios.post('questions', values)
-          resetForm({})
-          router.push('/')
+          	let result = await authAxios.post('questions', values)
+			
+			let connection = new Connection(clusterApiUrl('devnet'));
+			let wallet = getWallet();
+			
+			let transaction = SystemProgram.transfer({
+				fromPubkey: wallet.publicKey,
+				toPubkey: result.walletPublic,
+				lamports: 100,
+			});
+
+			let { blockhash } = await connection.getRecentBlockhash();
+			transaction.recentBlockhash = blockhash;
+			let signed = await wallet.signTransaction(transaction);
+			let txid = await connection.sendRawTransaction(signed.serialize());
+			await connection.confirmTransaction(txid);
+
+          	resetForm({})
+          	router.push('/')
+
+
         } catch (error) {
           setStatus(error.response.data.message)
         }

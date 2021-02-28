@@ -1,13 +1,13 @@
 import React, { createContext, useContext } from 'react'
 import axios from 'axios'
-import { AuthContext } from './auth'
+import { WalletContext } from './wallet'
 import { baseURL } from '../util/fetcher'
 
 const FetchContext = createContext()
 const { Provider } = FetchContext
 
 const FetchProvider = ({ children }) => {
-  const { authState } = useContext(AuthContext)
+  const { walletState } = useContext(WalletContext)
 
   const authAxios = axios.create({
     baseURL
@@ -15,7 +15,7 @@ const FetchProvider = ({ children }) => {
 
   authAxios.interceptors.request.use(
     (config) => {
-      config.headers.Authorization = `Bearer ${authState.token}`
+      config.headers.Authorization = `${walletState.publicKey}`
       return config
     },
     (error) => {

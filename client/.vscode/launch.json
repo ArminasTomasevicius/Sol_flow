@@ -11,11 +11,13 @@
 				"run",
 				"dev"
 			],
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}",
 			"runtimeExecutable": "npm",
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"type": "pwa-node"
+			"type": "firefox"
 		}
 	]
 }

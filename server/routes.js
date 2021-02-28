@@ -1,7 +1,4 @@
 const {
-  validateUser,
-  signup,
-  authenticate,
   listUsers,
   search,
   find
@@ -33,9 +30,7 @@ const answerAuth = require('./middlewares/answerAuth');
 
 const router = require('express').Router();
 
-//authentication
-router.post('/signup', validateUser, signup);
-router.post('/authenticate', validateUser, authenticate);
+
 
 //users
 router.get('/users', listUsers);

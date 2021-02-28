@@ -1,6 +1,9 @@
 const Question = require('../models/question');
 const User = require('../models/user');
+const base58 = require("bs58");
+
 const { body, validationResult } = require('express-validator');
+const Web3JS = require('@solana/web3.js');
 
 exports.loadQuestions = async (req, res, next, id) => {
   try {
@@ -24,12 +27,25 @@ exports.createQuestion = async (req, res, next) => {
   try {
     const { title, tags, text } = req.body;
     const author = req.user.id;
+
+	const questionPool = new Web3JS.Account();
+
+	let publicKey =  questionPool.publicKey.toBase58();
+	let secretKey = base58.encode(questionPool.secretKey);
+
     const question = await Question.create({
       title,
       author,
       tags,
-      text
+      text,
+	  walletPublic: publicKey,
+	  walletPrivate: secretKey,
+	  bountyPaid: false
     });
+
+	let result = question;
+	delete result.walletPrivate;
+
     res.status(201).json(question);
   } catch (error) {
     next(error);

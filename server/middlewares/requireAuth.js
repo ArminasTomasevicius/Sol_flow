@@ -1,19 +1,26 @@
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const User = require('../models/user');
 
-const requireAuth = (req, res, next) => {
+const requireAuth = async (req, res, next) => {
   const token = req.headers.authorization;
-  if (!token) {
+  if (!token) 
+  {
     return res.status(401).json({ message: 'Authentication invalid.' });
   }
 
-  try {
-    const decodedToken = jwt.verify(token.slice(7), config.jwt.secret, {
-      algorithm: 'HS256',
-      expiresIn: config.jwt.expiry
-    });
+  try 
+  {
+	let user = await User.findOne({ publicKey: token});
 
-    req.user = decodedToken;
+	// Create user if it doesn't exist!
+	if(!user)
+	{
+		const newUser = new User({publicKey: token});
+		user = await newUser.save();
+	}
+
+    req.user = user;
     next();
     
   } catch (error) {
