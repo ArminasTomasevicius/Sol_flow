@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 
-import { AuthContext } from '../../../store/auth'
+import { WalletContext } from '../../../store/wallet'
 import ModalContext from '../../../store/modal'
 
 import AddComment from '../add-comment'
@@ -13,7 +13,7 @@ const CommentList = ({
   answerId,
   setQuestion,
 }) => {
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated } = useContext(WalletContext)
   const { handleComponentVisible } = useContext(ModalContext)
 
   const [showAddComment, setShowAddComment] = useState(false)

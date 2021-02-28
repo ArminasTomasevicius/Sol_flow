@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import cn from 'classnames'
 
-import { AuthContext } from '../../store/auth'
+import { WalletContext } from '../../store/wallet'
 
 import Button from '../button'
 
 import styles from './page-title.module.css'
 
 const PageTitle = ({ title, button, borderBottom = true, children }) => {
-  const { isAuthenticated } = useContext(AuthContext)
+  const { isAuthenticated, connectWallet } = useContext(WalletContext)
 
   return (
     <div className={cn(styles.container, borderBottom && styles.borderBottom)}>
@@ -17,7 +17,11 @@ const PageTitle = ({ title, button, borderBottom = true, children }) => {
         <div className={styles.buttonContainer}>
           {button && (
             <Button
-              href={isAuthenticated() ? '/questions/ask' : '/auth'}
+              href={isAuthenticated() ? '/questions/ask' : '/questions/ask'}
+			  onClick={() => {
+				  if(!isAuthenticated())
+					connectWallet();
+			  }}
               primary
             >
               Ask Question

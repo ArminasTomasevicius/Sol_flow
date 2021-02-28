@@ -4,7 +4,6 @@ import { Formik } from 'formik'
 import * as Yup from 'yup'
 
 import { FetchContext } from '../../store/fetch'
-import { AuthContext } from '../../store/auth'
 import ModalContext from '../../store/modal'
 
 import TextArea from '../textarea'
@@ -15,8 +14,7 @@ import styles from './add-answer.module.css'
 
 const AddAnswer = ({ id, tags, setQuestion }) => {
   const { authAxios } = useContext(FetchContext)
-  const { isAuthenticated } = useContext(AuthContext)
-  const { handleComponentVisible } = useContext(ModalContext)
+  const { handleComponentVisible, isAuthenticated } = useContext(ModalContext)
 
   const [loading, setLoading] = useState(false)
 

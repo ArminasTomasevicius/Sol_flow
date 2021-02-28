@@ -6,7 +6,8 @@ import useComponentVisible from '../../../hooks/useComponentVisible'
 import useWindowSize from '../../../hooks/useWindowSize'
 import CONST from '../../../constants'
 import ModalContext from '../../../store/modal'
-import { AuthContext } from '../../../store/auth'
+import { WalletContext } from '../../../store/wallet'
+
 
 import Button from '../../button'
 import NavigationDropdown from '../../navigation-dropdown'
@@ -16,7 +17,7 @@ import styles from './header.module.css'
 
 const Header = ({ className, ...props }) => {
   const { handleComponentVisible } = useContext(ModalContext)
-  const { isAuthenticated, authState, logout } = useContext(AuthContext)
+  const { isAuthenticated, getWallet, connectWallet, walletState } = useContext(WalletContext)
 
   const {
     ref,
@@ -24,6 +25,13 @@ const Header = ({ className, ...props }) => {
     isComponentVisible,
     setIsComponentVisible
   } = useComponentVisible(false)
+
+
+
+  const logout = () => {
+	getWallet().disconnect();
+  };
+
   const size = useWindowSize()
 
   useEffect(() => {
@@ -46,7 +54,7 @@ const Header = ({ className, ...props }) => {
         <Button className={styles.logo} href="/">
           <Logo />
           <p>
-            clone-of-stack<span>overflow</span>
+            Sol<span>Flow</span>
           </p>
         </Button>
         <div style={{ flex: 1 }}></div>
@@ -57,9 +65,9 @@ const Header = ({ className, ...props }) => {
               Welcome{' '}
               <Link
                 href="/users/[user]"
-                as={`/users/${authState.userInfo.username}`}
+                as={`/users/${walletState.publicKey.toBase58()}`}
               >
-                <a>{authState.userInfo.username}!</a>
+                <a>{walletState.publicKey.toBase58()}!</a>
               </Link>
             </p>
             <a onClick={() => logout()}>log out</a>
@@ -69,16 +77,9 @@ const Header = ({ className, ...props }) => {
             <Button
               className={styles.auth}
               secondary
-              onClick={() => handleComponentVisible(true, 'login')}
+              onClick={ () => connectWallet()}
             >
-              Log in
-            </Button>
-            <Button
-              className={styles.auth}
-              primary
-              onClick={() => handleComponentVisible(true, 'signup')}
-            >
-              Sign up
+			  Connect
             </Button>
           </>
         )}
