@@ -5,19 +5,34 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Launch via NPM",
+			"name": "Launch Chrome",
 			"request": "launch",
-			"runtimeArgs": [
-				"run",
-				"dev"
-			],
+			"type": "pwa-chrome",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}"
+		},
+		{
+			"type": "firefox",
+			"request": "launch",
+			"reAttach": true,
+			"name": "Launch ff",
 			"url": "http://localhost:3000",
 			"webRoot": "${workspaceFolder}",
-			"runtimeExecutable": "npm",
-			"skipFiles": [
-				"<node_internals>/**"
-			],
-			"type": "firefox"
+			"pathMappings": [
+				{
+					"url": "webpack://_n_e/node_modules/@next/react-dev-overlay/lib/internal/components/CodeFrame/index.js",
+					"path": "${workspaceFolder}/components/question-ask-view/question-form/index.js"
+				},
+				{
+					"url": "webpack://_n_e/store",
+					"path": "${workspaceFolder}/store"
+				}
+			]
+		},
+		{
+			"name": "Launch localhost",
+			"type": "firefox",
+			"request": "attach"
 		}
 	]
 }

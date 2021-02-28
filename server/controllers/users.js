@@ -14,7 +14,7 @@ exports.listUsers = async (req, res, next) => {
 
 exports.search = async (req, res, next) => {
   try {
-    const users = await User.find({ username: { $regex: req.params.search, $options: 'i' } });
+    const users = await User.find({ publicKey: { $regex: req.params.search, $options: 'i' } });
     res.json(users);
   } catch (error) {
     next(error);
@@ -23,7 +23,7 @@ exports.search = async (req, res, next) => {
 
 exports.find = async (req, res, next) => {
   try {
-    const users = await User.findOne({ username: req.params.username });
+    const users = await User.findOne({ publicKey: req.params.publicKey });
     res.json(users);
   } catch (error) {
     next(error);
@@ -31,7 +31,7 @@ exports.find = async (req, res, next) => {
 };
 
 exports.validateUser = [
-  body('username')
+  body('publicKey')
     .exists()
     .trim()
     .withMessage('is required')

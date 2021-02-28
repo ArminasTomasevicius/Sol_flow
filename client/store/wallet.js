@@ -42,7 +42,7 @@ const WalletProvider = ({ children }) =>
     const provider = localStorage.getItem('provider') || WALLET_PROVIDERS[0];
 
     setWalletState({
-	  wallet: wallet,
+	  wallet,
       provider,
       connected,
     })

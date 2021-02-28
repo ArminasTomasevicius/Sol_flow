@@ -5,7 +5,7 @@ import * as Yup from 'yup'
 
 import { FetchContext } from '../../../store/fetch'
 import { WalletContext } from '../../../store/wallet'
-import { Connection, SystemProgram, clusterApiUrl } from '@solana/web3.js';
+import { Connection, SystemProgram, TransactionInstruction,PublicKey, clusterApiUrl, Transaction } from '@solana/web3.js';
 
 import Button from '../../button'
 import Textarea from '../../textarea'
@@ -21,38 +21,46 @@ const QuestionForm = () => {
 
   const [loading, setLoading] = useState(false)
 
-  return (
-    <Formik
-      initialValues={{ title: '', text: '', tags: [] }}
-      onSubmit={async (values, { setStatus, resetForm }) => {
+	const onSubmit = async (values, { setStatus, resetForm }) => 
+	{
         setLoading(true)
-        try {
-          	let result = await authAxios.post('questions', values)
-			
+	
+		  
+        try 
+		{
+			let result = await authAxios.post('questions', values)
+	
+
 			let connection = new Connection(clusterApiUrl('devnet'));
-			let wallet = getWallet();
-			
+
+			let wallet = getWallet();		
 			let transaction = SystemProgram.transfer({
 				fromPubkey: wallet.publicKey,
-				toPubkey: result.walletPublic,
+				toPubkey: new PublicKey(result.data.walletPublic),
 				lamports: 100,
 			});
 
 			let { blockhash } = await connection.getRecentBlockhash();
 			transaction.recentBlockhash = blockhash;
 			let signed = await wallet.signTransaction(transaction);
-			let txid = await connection.sendRawTransaction(signed.serialize());
+			let txid = await connection.sendRawTransaction(signed.serialize());			
 			await connection.confirmTransaction(txid);
-
-          	resetForm({})
-          	router.push('/')
-
+	
+					
+			resetForm({})
+			router.push('/')
+  
 
         } catch (error) {
           setStatus(error.response.data.message)
         }
         setLoading(false)
-      }}
+	}
+
+  return (
+    <Formik
+      initialValues={{ title: '', text: '', tags: [] }}
+      onSubmit={onSubmit}
       validationSchema={Yup.object({
         title: Yup.string()
           .required('Title is missing.')

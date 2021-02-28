@@ -46,7 +46,7 @@ exports.createQuestion = async (req, res, next) => {
 	let result = question;
 	delete result.walletPrivate;
 
-    res.status(201).json(question);
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }
@@ -88,9 +88,9 @@ exports.listByTags = async (req, res, next) => {
 
 exports.listByUser = async (req, res, next) => {
   try {
-    const { username } = req.params;
+    const { publicKey } = req.params;
     const { sortType = '-created' } = req.body;
-    const author = await User.findOne({ username });
+    const author = await User.findOne({ publicKey });
     const questions = await Question.find({ author: author.id }).sort(sortType).limit(10);
     res.json(questions);
   } catch (error) {
