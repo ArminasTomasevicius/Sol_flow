@@ -40,7 +40,7 @@ function TagsPage() {
   return (
     <Layout extra={false}>
       <Head>
-        <title>Tags - Clone of Stackoverflow</title>
+        <title>Tags - SolFlow</title>
       </Head>
 
       <PageTitle title="Tags" borderBottom={false}>
