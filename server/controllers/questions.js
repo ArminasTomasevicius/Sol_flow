@@ -18,6 +18,26 @@ exports.loadQuestions = async (req, res, next, id) => {
   next();
 };
 
+exports.setQuestionPaid = async (req, res, next) => 
+{
+	try {
+	  let question = await Question.findById(req.body.id);
+
+
+	  if (!question)
+	  	return res.status(444).json({ message: 'Question not found.' });
+
+		question.bountyPaid = true;
+		question.save();
+		res.status(201).json(question);
+	} 
+	catch (error) 
+	{
+		next(error);
+	}
+  };
+  
+
 exports.createQuestion = async (req, res, next) => {
   const result = validationResult(req);
   if (!result.isEmpty()) {
@@ -69,7 +89,7 @@ exports.show = async (req, res, next) => {
 exports.listQuestions = async (req, res, next) => {
   try {
     const { sortType = '-score' } = req.body;
-    const questions = await Question.find().sort(sortType);
+    const questions = await Question.find({bountyPaid: true}).sort(sortType);
     res.json(questions);
   } catch (error) {
     next(error);

@@ -44,9 +44,10 @@ const QuestionForm = () => {
 			transaction.recentBlockhash = blockhash;
 			let signed = await wallet.signTransaction(transaction);
 			let txid = await connection.sendRawTransaction(signed.serialize());			
-			await connection.confirmTransaction(txid);
+			let confirmedTransaction = await connection.confirmTransaction(txid);
 	
-					
+			await authAxios.post('questionPaid', result.data);
+
 			resetForm({})
 			router.push('/')
   

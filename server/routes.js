@@ -9,6 +9,7 @@ const {
   createQuestion,
   show,
   listQuestions,
+  setQuestionPaid,
   listByTags,
   listByUser,
   removeQuestion
@@ -39,7 +40,10 @@ router.get('/user/:username', find);
 
 //questions
 router.param('question', loadQuestions);
+
 router.post('/questions', [requireAuth, questionValidate], createQuestion);
+router.post('/questionPaid', [requireAuth, questionValidate], setQuestionPaid);
+
 router.get('/question/:question', show);
 router.get('/question', listQuestions);
 router.get('/questions/:tags', listByTags);
