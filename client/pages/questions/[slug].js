@@ -145,6 +145,7 @@ const QuestionDetail = ({ questionId, title }) => {
             <AddAnswer
               tags={question.tags}
               id={questionId}
+			  walletId={question.walletPublic}
               setQuestion={setQuestion}
             />
           </>

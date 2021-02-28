@@ -32,7 +32,6 @@ const QuestionForm = () => {
 	
 
 			let connection = new Connection(clusterApiUrl('devnet'));
-
 			let wallet = getWallet();		
 			let transaction = SystemProgram.transfer({
 				fromPubkey: wallet.publicKey,

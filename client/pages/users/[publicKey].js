@@ -25,7 +25,7 @@ const UserDetail = ({ publicKey }) => {
   return (
     <Layout extra={false}>
       <Head>
-        <title>Users {publicKey} - Clone of Stackoverflow</title>
+        <title>Users {publicKey} - SolFlow</title>
       </Head>
 
       <UserCard>

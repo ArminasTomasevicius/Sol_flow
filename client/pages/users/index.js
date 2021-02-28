@@ -40,7 +40,7 @@ function UsersPage() {
   return (
     <Layout extra={false}>
       <Head>
-        <title>Users - Clone of Stackoverflow</title>
+        <title>Users - SolFlow</title>
       </Head>
 
       <PageTitle title="Users" borderBottom={false} />

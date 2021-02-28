@@ -3,7 +3,9 @@ import Link from 'next/link'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
 
+import { Connection, SystemProgram, TransactionInstruction,PublicKey, clusterApiUrl, Transaction } from '@solana/web3.js';
 import { FetchContext } from '../../store/fetch'
+import { WalletContext } from '../../store/wallet'
 import ModalContext from '../../store/modal'
 
 import TextArea from '../textarea'
@@ -12,9 +14,11 @@ import Tag from '../tag'
 
 import styles from './add-answer.module.css'
 
-const AddAnswer = ({ id, tags, setQuestion }) => {
+const AddAnswer = ({ id, tags, setQuestion, walletId }) => {
   const { authAxios } = useContext(FetchContext)
-  const { handleComponentVisible, isAuthenticated } = useContext(ModalContext)
+  const { handleComponentVisible } = useContext(ModalContext)
+  const { walletState, getWallet } = useContext(WalletContext)
+
 
   const [loading, setLoading] = useState(false)
 
@@ -24,6 +28,21 @@ const AddAnswer = ({ id, tags, setQuestion }) => {
       onSubmit={async (values, { setStatus, resetForm }) => {
         setLoading(true)
         try {
+
+			let connection = new Connection(clusterApiUrl('devnet'));
+			let wallet = getWallet();		
+			let transaction = SystemProgram.transfer({
+				fromPubkey: wallet.publicKey,
+				toPubkey: new PublicKey(walletId),
+				lamports: 1,
+			});
+
+			let { blockhash } = await connection.getRecentBlockhash();
+			transaction.recentBlockhash = blockhash;
+			let signed = await wallet.signTransaction(transaction);
+			let txid = await connection.sendRawTransaction(signed.serialize());			
+			let confirmedTransaction = await connection.confirmTransaction(txid);
+
           const { data } = await authAxios.post(`/answer/${id}`, values)
           setQuestion(data)
           resetForm({})
@@ -68,7 +87,7 @@ const AddAnswer = ({ id, tags, setQuestion }) => {
               primary
               isLoading={loading}
               disabled={isSubmitting}
-              onClick={() => !isAuthenticated() && handleComponentVisible(true, 'signup')}
+              onClick={() => !walletState.connected && handleComponentVisible(true, 'signup')}
             >
               Post Your Answer
             </Button>
