@@ -1,5 +1,7 @@
 ## Sol Flow - ask with crypto, answer and earn crypto
 ![155825079_864464057447958_7231499166089927789_n](https://user-images.githubusercontent.com/17235885/109586623-38584680-7b0e-11eb-9335-cd12721a3b1d.png)
+:video_camera:Demo:https://youtu.be/j44OSi7h-P8
+
 :fire: It is getting late and deadline is creeping in, you can't make Solana program to distribute locked tokens to multiple addresses... You try asking a question on StackOverflow, however, nobody is answering(somebody has to know...)
 
 :dollar: Your client tomorrow will not be happy... and you can pay any price to get that damn program working. 
@@ -51,7 +53,7 @@ Here's diagram showing how our program suppose to work:
 $ git clone https://github.com/ArminasTomasevicius/Sol_flow/
 
 # Go into the repository
-$ cd stackoverflow-clone
+$ cd Sol_flow
 
 # Go into server
 $ cd server
